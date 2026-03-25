@@ -1,18 +1,137 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eco-Eat|SDG 13 Low Carbon Recipes</title>
+    <title>Eco-Eat | SDG 13 Low-Carbon Recipes</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <style>
-        body { background-color: #F5F5DC; } 
-        .navbar { background-color: #2D5A27; } 
+        :root {
+            --forest-green: #2D5A27; [span_3](start_span)/* 你的森林綠設計概念[span_3](end_span) */
+            --cream-beige: #F5F5DC;  [span_4](start_span)/* 你的米色背景設計概念[span_4](end_span) */
+        }
+
+        body {
+            background-color: var(--cream-beige);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background-color: var(--forest-green) !important;
+        }
+
+        .hero-section {
+            background-color: white;
+            padding: 80px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .recipe-card {
+            transition: transform 0.3s; [span_5](start_span)/* 簡報提到的互動動畫[span_5](end_span) */
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-10px); /* 滑鼠懸停效果 */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-success {
+            background-color: var(--forest-green);
+            border: none;
+        }
+
+        .carbon-tag {
+            font-size: 0.8rem;
+            color: #198754;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">🌿 Eco-Eat</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#recipes">Recipes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">SDG 13</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold text-success mb-3">Eat Green, Save the Planet</h1>
+            <p class="lead text-muted mb-4 mx-auto" style="max-width: 700px;">
+                [span_6](start_span)Animal agriculture accounts for nearly 14.5% of global emissions[span_6](end_span). 
+                [span_7](start_span)Start your <strong>SDG 13 Climate Action</strong> today with these 15-minute recipes[span_7](end_span).
+            </p>
+            <a href="#recipes" class="btn btn-success btn-lg px-5">Get Started</a>
+        </div>
+    </section>
+
+    <section id="recipes" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">15-Minute Plant-Based Recipes</h2>
+            <div class="row g-4">
+                
+                <div class="col-md-4">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1517673132405-a56a62b18acc?auto=format&fit=crop&w=500" class="card-img-top" alt="Oats">
+                        <div class="card-body">
+                            <span class="badge bg-light text-success mb-2">Breakfast</span>
+                            <h5 class="card-title fw-bold">Overnight Oats</h5>
+                            <p class="card-text text-muted">Prepare in 5 mins before bed. Zero-cook and high fiber.</p>
+                            <div class="carbon-tag">Low Carbon Impact</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500" class="card-img-top" alt="Tofu">
+                        <div class="card-body">
+                            <span class="badge bg-light text-success mb-2">Lunch</span>
+                            <h5 class="card-title fw-bold">Cold Silken Tofu</h5>
+                            <p class="card-text text-muted">Fresh tofu with tomatoes. High protein and refreshing.</p>
+                            <div class="carbon-tag">100% Plant-Based</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500" class="card-img-top" alt="Salad">
+                        <div class="card-body">
+                            <span class="badge bg-light text-success mb-2">Dinner</span>
+                            <h5 class="card-title fw-bold">Warm Veggie Salad</h5>
+                            <p class="card-text text-muted">A quick sauté of seasonal greens in just 10 minutes.</p>
+                            <div class="carbon-tag">Minimal Prep Time</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-4 bg-dark text-white text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Eco-Eat Project. Built for SDG 13 Climate Action.</p>
+            <small class="text-muted">Deployed on GitHub Pages</small>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
