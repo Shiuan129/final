@@ -9,51 +9,25 @@
     
     <style>
         :root {
-            --forest-green: #2D5A27; /* 森林綠 */
-            --cream-beige: #F5F5DC;  /* 米色背景 */
+            --forest-green: #2D5A27; 
+            --cream-beige: #F5F5DC;  
         }
-
-        html {
-            scroll-behavior: smooth; /* 平滑捲動效果 */
-        }
-
-        body {
-            background-color: var(--cream-beige);
-            font-family: "Microsoft JhengHei", Arial, sans-serif;
-        }
-
-        .navbar {
-            background-color: var(--forest-green) !important;
-        }
-
-        .hero-section {
-            background-color: white;
-            padding: 100px 0;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .recipe-card {
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: none;
-            border-radius: 15px;
-            overflow: hidden;
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--cream-beige); font-family: "Microsoft JhengHei", Arial, sans-serif; }
+        .navbar { background-color: var(--forest-green) !important; }
+        .hero-section { background-color: white; padding: 80px 0; border-bottom: 1px solid #dee2e6; }
+        
+        /* 卡片設計與 Hover 效果 [cite: 23, 24] */
+        .recipe-card { 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            border: none; 
+            border-radius: 15px; 
+            overflow: hidden; 
             cursor: pointer;
+            display: block; /* 預設顯示 */
         }
-
-        .recipe-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-
-        .btn-success {
-            background-color: var(--forest-green);
-            border: none;
-        }
-
-        .btn-success:hover {
-            background-color: #1e3d1a;
-        }
-
+        .recipe-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        
         .carbon-reduction-badge {
             background-color: #e8f5e9;
             color: #2d5a27;
@@ -63,15 +37,8 @@
             border-radius: 20px;
             display: inline-block;
         }
-
-        .modal-header {
-            background-color: var(--forest-green);
-            color: white;
-        }
-
-        .btn-close-white {
-            filter: invert(1);
-        }
+        .filter-btn.active { background-color: var(--forest-green) !important; color: white !important; }
+        .modal-header { background-color: var(--forest-green); color: white; }
     </style>
 </head>
 <body>
@@ -79,14 +46,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="#">🌿 Eco-Eat</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#home">首頁</a></li>
                     <li class="nav-item"><a class="nav-link" href="#recipes">低碳食譜</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">關於 SDG 13</a></li>
                 </ul>
             </div>
         </div>
@@ -96,50 +59,152 @@
         <div class="container">
             <h1 class="display-4 fw-bold text-success mb-3">Eat Green, Save the Planet</h1>
             <p class="lead text-muted mb-4 mx-auto" style="max-width: 750px;">
-                畜牧業排放占全球溫室氣體近 14.5%。<br>
-                透過 15 分鐘的簡單蔬食，每個人都能為 <strong>SDG 13 氣候行動</strong> 做出貢獻。
+                畜牧業排放占全球溫室氣體近 14.5% [cite: 8]。透過 15 分鐘的簡單蔬食 [cite: 10]，我們每個人都能為 <strong>SDG 13 氣候行動</strong> 做出貢獻 [cite: 6]。
             </p>
-            <a href="#recipes" class="btn btn-success btn-lg px-5 shadow-sm">探索食譜</a>
+            <div class="mb-4">
+                <button class="btn btn-outline-success filter-btn active mx-1" onclick="filterMenu('all', this)">全部食譜</button>
+                <button class="btn btn-outline-success filter-btn mx-1" onclick="filterMenu('breakfast', this)">早餐</button>
+                <button class="btn btn-outline-success filter-btn mx-1" onclick="filterMenu('lunch', this)">午餐</button>
+                <button class="btn btn-outline-success filter-btn mx-1" onclick="filterMenu('dinner', this)">晚餐</button>
+            </div>
         </div>
     </section>
 
     <section id="recipes" class="py-5">
         <div class="container">
-            <h2 class="text-center mb-5 fw-bold">學生專屬：15 分鐘快手食譜</h2>
-            <div class="row g-4">
+            <div class="row g-4" id="recipe-grid">
                 
-                <div class="col-md-4">
-                    <div class="card recipe-card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalOats">
-                        <img src="https://images.unsplash.com/photo-1517673132405-a56a62b18acc?auto=format&fit=crop&w=600" class="card-img-top" alt="Oats">
+                <div class="col-md-4 recipe-item breakfast">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1517673132405-a56a62b18acc?w=400" class="card-img-top" alt="Oats">
                         <div class="card-body">
-                            <span class="badge bg-secondary mb-2">早餐 (Breakfast)</span>
-                            <h5 class="card-title fw-bold">隔夜燕麥粥 (Overnight Oats)</h5>
-                            <p class="card-text text-muted">睡前 5 分鐘準備，免開火，高纖維又有飽足感。</p>
-                            <div class="carbon-reduction-badge">⏱️ 5 min | 🌱 低碳標竿</div>
+                            <span class="badge bg-secondary mb-2">早餐</span>
+                            <h5 class="card-title fw-bold">隔夜燕麥粥</h5>
+                            <p class="card-text text-muted small">睡前準備，隔天即食，極低碳排 [cite: 14, 15]。</p>
+                            <div class="carbon-reduction-badge">⏱️ 5 min | 🌱 極簡</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 recipe-item breakfast">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400" class="card-img-top" alt="Avocado">
+                        <div class="card-body">
+                            <span class="badge bg-secondary mb-2">早餐</span>
+                            <h5 class="card-title fw-bold">酪梨全麥吐司</h5>
+                            <p class="card-text text-muted small">優質脂肪與纖維，學生早八的最佳應援。</p>
+                            <div class="carbon-reduction-badge">⏱️ 10 min | 🥑 健康</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 recipe-item breakfast">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400" class="card-img-top" alt="Smoothie">
+                        <div class="card-body">
+                            <span class="badge bg-secondary mb-2">早餐</span>
+                            <h5 class="card-title fw-bold">香蕉豆漿能量飲</h5>
+                            <p class="card-text text-muted small">用植物奶代替牛乳，減少約 70% 碳足跡。</p>
+                            <div class="carbon-reduction-badge">⏱️ 3 min | 🥛 植物奶</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 recipe-item breakfast">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400" class="card-img-top" alt="Fruits">
+                        <div class="card-body">
+                            <span class="badge bg-secondary mb-2">早餐</span>
+                            <h5 class="card-title fw-bold">希臘式植物優格碗</h5>
+                            <p class="card-text text-muted small">搭配季節水果，天然維生素滿點。</p>
+                            <div class="carbon-reduction-badge">⏱️ 5 min | 🍓 零烹飪</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="card recipe-card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTofu">
-                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600" class="card-img-top" alt="Tofu">
+                <div class="col-md-4 recipe-item lunch">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" class="card-img-top" alt="Tofu">
                         <div class="card-body">
-                            <span class="badge bg-secondary mb-2">午餐 (Lunch)</span>
+                            <span class="badge bg-primary mb-2">午餐</span>
                             <h5 class="card-title fw-bold">番茄涼拌嫩豆腐</h5>
-                            <p class="card-text text-muted">清爽無負擔的高蛋白選擇，適合忙碌的打工日。</p>
+                            <p class="card-text text-muted small">高蛋白、免開火，適合忙碌打工日 [cite: 17]。</p>
                             <div class="carbon-reduction-badge">⏱️ 10 min | 🥗 高蛋白</div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-4">
-                    <div class="card recipe-card h-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalSalad">
-                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600" class="card-img-top" alt="Salad">
+                <div class="col-md-4 recipe-item lunch">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400" class="card-img-top" alt="Soba">
                         <div class="card-body">
-                            <span class="badge bg-secondary mb-2">晚餐 (Dinner)</span>
+                            <span class="badge bg-primary mb-2">午餐</span>
+                            <h5 class="card-title fw-bold">日式胡麻冷麵</h5>
+                            <p class="card-text text-muted small">使用全麥麵條，低 G.I. 又環保。</p>
+                            <div class="carbon-reduction-badge">⏱️ 12 min | 🥢 清爽</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 recipe-item lunch">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400" class="card-img-top" alt="Salad">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-2">午餐</span>
+                            <h5 class="card-title fw-bold">鷹嘴豆輕盈沙拉</h5>
+                            <p class="card-text text-muted small">超級食物鷹嘴豆，提供絕佳體力支援。</p>
+                            <div class="carbon-reduction-badge">⏱️ 10 min | 🫘 超級食物</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 recipe-item lunch">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?w=400" class="card-img-top" alt="Soup">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-2">午餐</span>
+                            <h5 class="card-title fw-bold">味噌時蔬豆腐湯</h5>
+                            <p class="card-text text-muted small">微波爐即可完成，溫暖低負擔。</p>
+                            <div class="carbon-reduction-badge">⏱️ 8 min | 🥣 微波料理</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 recipe-item dinner">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400" class="card-img-top" alt="Warm Salad">
+                        <div class="card-body">
+                            <span class="badge bg-success mb-2">晚餐</span>
                             <h5 class="card-title fw-bold">10 分鐘溫沙拉</h5>
-                            <p class="card-text text-muted">快速拌炒季節時蔬，溫暖你的胃，也守護地球。</p>
-                            <div class="carbon-reduction-badge">⏱️ 10 min | 🌎 守護氣候</div>
+                            <p class="card-text text-muted small">快速拌炒季節時蔬，守護地球 。</p>
+                            <div class="carbon-reduction-badge">⏱️ 10 min | 🔥 暖胃</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 recipe-item dinner">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400" class="card-img-top" alt="Curry">
+                        <div class="card-body">
+                            <span class="badge bg-success mb-2">晚餐</span>
+                            <h5 class="card-title fw-bold">椰香南瓜濃湯</h5>
+                            <p class="card-text text-muted small">南瓜豐富纖維，用椰奶取代鮮奶油更永續。</p>
+                            <div class="carbon-reduction-badge">⏱️ 15 min | 🥥 濃郁</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 recipe-item dinner">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=400" class="card-img-top" alt="Pasta">
+                        <div class="card-body">
+                            <span class="badge bg-success mb-2">晚餐</span>
+                            <h5 class="card-title fw-bold">蒜炒野菇義大利麵</h5>
+                            <p class="card-text text-muted small">菇類具有獨特鮮味，是低碳排的高級享受。</p>
+                            <div class="carbon-reduction-badge">⏱️ 15 min | 🍝 飽足</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 recipe-item dinner">
+                    <div class="card recipe-card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" class="card-img-top" alt="Stir-fry">
+                        <div class="card-body">
+                            <span class="badge bg-success mb-2">晚餐</span>
+                            <h5 class="card-title fw-bold">彩椒豆乾快炒</h5>
+                            <p class="card-text text-muted small">經典家常蔬食，營養均衡的選擇。</p>
+                            <div class="carbon-reduction-badge">⏱️ 12 min | 🥢 家常</div>
                         </div>
                     </div>
                 </div>
@@ -148,102 +213,34 @@
         </div>
     </section>
 
-    <div class="modal fade" id="modalOats" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title fw-bold">🥣 隔夜燕麥粥教學</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <h5>所需食材：</h5>
-                    <ul>
-                        <li>大燕麥片 0.5 杯</li>
-                        <li>無糖豆漿或植物奶 0.5 杯</li>
-                        <li>奇亞籽 1 匙 (選配)</li>
-                        <li>新鮮水果或堅果</li>
-                    </ul>
-                    <hr>
-                    <h5>製作步驟：</h5>
-                    <ol>
-                        <li>將燕麥、豆漿、奇亞籽放入玻璃罐中。</li>
-                        <li>攪拌均勻後蓋上蓋子。</li>
-                        <li>放入冰箱冷藏至少 6 小時。</li>
-                        <li>隔天取出，放上喜歡的水果即可食用！</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modalTofu" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header text-white">
-                    <h5 class="modal-title fw-bold">🥗 番茄涼拌嫩豆腐教學</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <h5>所需食材：</h5>
-                    <ul>
-                        <li>嫩豆腐 1 盒</li>
-                        <li>大番茄 1 顆 (切丁)</li>
-                        <li>和風醬油或素蠔油</li>
-                        <li>少許蔥花或香菜</li>
-                    </ul>
-                    <hr>
-                    <h5>製作步驟：</h5>
-                    <ol>
-                        <li>將嫩豆腐瀝乾水分放入盤中。</li>
-                        <li>將切丁的番茄鋪在豆腐上。</li>
-                        <li>淋上調味料。</li>
-                        <li>最後撒上蔥花即可。</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modalSalad" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header text-white">
-                    <h5 class="modal-title fw-bold">🔥 10 分鐘溫沙拉教學</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <h5>所需食材：</h5>
-                    <ul>
-                        <li>花椰菜、玉米筍、甜椒等喜愛的蔬菜</li>
-                        <li>橄欖油 1 匙</li>
-                        <li>黑胡椒、鹽少許</li>
-                        <li>腰果或核桃</li>
-                    </ul>
-                    <hr>
-                    <h5>製作步驟：</h5>
-                    <ol>
-                        <li>將蔬菜洗淨切成一口大小。</li>
-                        <li>鍋內放入少許橄欖油，中火翻炒。</li>
-                        <li>加入少許水悶煮 2 分鐘確保熟透。</li>
-                        <li>加入鹽、黑胡椒與堅果拌勻，即可起鍋。</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <footer id="about" class="py-5 bg-dark text-white text-center">
         <div class="container">
             <h5 class="mb-3">About Eco-Eat & SDG 13</h5>
             <p class="small text-muted mb-4">
-                這個專案是為了資管系課程開發，旨在透過網頁技術推廣永續飲食。<br>
+                這個專案是為資管系課程開發 [cite: 3]，透過網頁技術推廣永續飲食。<br>
                 藉由減少肉類攝取，我們可以有效降低碳足跡，減緩氣候變遷。
             </p>
-            <p class="mb-0">© 2026 Eco-Eat Project | 李盈萱</p>
-            <small class="text-muted">Deployed on GitHub Pages</small>
+            <p class="mb-0">© 2026 Eco-Eat Project | 李盈萱 [cite: 3]</p>
         </div>
     </footer>
 
+    <script>
+        function filterMenu(category, btn) {
+            // 切換按鈕樣式
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // 執行篩選
+            const items = document.querySelectorAll('.recipe-item');
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
