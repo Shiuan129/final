@@ -13,13 +13,13 @@
         .navbar { background-color: var(--forest-green) !important; }
         .hero-section { background-color: white; padding: 60px 0; border-bottom: 1px solid #dee2e6; }
         
-        /* 卡片設計與互動 */
+        /* 卡片設計 */
         .recipe-card { 
             transition: transform 0.3s, box-shadow 0.3s; 
             border: none; border-radius: 15px; overflow: hidden; cursor: pointer; height: 100%;
         }
         .recipe-card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px rgba(0,0,0,0.1); }
-        .card-img-top { height: 180px; object-fit: cover; }
+        .card-img-top { height: 180px; object-fit: cover; background-color: #eee; }
         
         .carbon-badge { background-color: #e8f5e9; color: #2d5a27; font-weight: bold; font-size: 0.8rem; padding: 4px 10px; border-radius: 20px; }
         .filter-btn.active { background-color: var(--forest-green) !important; color: white !important; }
@@ -31,63 +31,74 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="#">🌿 Eco-Eat</a>
-            <div class="ms-auto text-white d-none d-md-block">SDG 13 氣候行動：低碳飲食平台</div>
+            <span class="navbar-text d-none d-md-inline text-white">SDG 13 氣候行動</span>
         </div>
     </nav>
 
     <section class="hero-section text-center">
         <div class="container">
             <h1 class="fw-bold text-success mb-3">學生蔬食，15 分鐘守護地球</h1>
-            <p class="text-muted mb-4">點擊下方食譜查看製作步驟，每餐都能減少 14.5% 的溫室氣體貢獻。</p>
-            
-            <div class="mb-2">
-                <button class="btn btn-outline-success filter-btn active mx-1" onclick="filterMenu('all', this)">全部食譜</button>
-                <button class="btn btn-outline-success filter-btn mx-1" onclick="filterMenu('br', this)">早餐 (5道)</button>
-                <button class="btn btn-outline-success filter-btn mx-1" onclick="filterMenu('lu', this)">午餐 (5道)</button>
-                <button class="btn btn-outline-success filter-btn mx-1" onclick="filterMenu('di', this)">晚餐 (5道)</button>
+            <div class="mb-4">
+                <button class="btn btn-outline-success filter-btn active mx-1" onclick="filterMenu('all', this)">全部</button>
+                <button class="btn btn-outline-success filter-btn mx-1" onclick="filterMenu('br', this)">早餐</button>
+                <button class="btn btn-outline-success filter-btn mx-1" onclick="filterMenu('lu', this)">午餐</button>
+                <button class="btn btn-outline-success filter-btn mx-1" onclick="filterMenu('di', this)">晚餐</button>
             </div>
         </div>
     </section>
 
     <div class="container py-5">
         <div class="row g-4" id="recipe-container">
-            
-            <div class="col-6 col-md-4 col-lg-2.4 recipe-item br">
+            <div class="col-6 col-md-4 col-lg-3 recipe-item br">
                 <div class="card recipe-card shadow-sm" data-bs-toggle="modal" data-bs-target="#m1">
-                    <img src="https://images.unsplash.com/photo-1517673132405-a56a62b18acc?w=400" class="card-img-top">
+                    <img src="./images/oats.jpg" class="card-img-top" alt="隔夜燕麥" onerror="this.src='https://placehold.co/400x300?text=Oats'">
                     <div class="card-body p-3">
                         <span class="carbon-badge">⏱️5m</span>
                         <h6 class="fw-bold mt-2">隔夜燕麥粥</h6>
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-md-4 col-lg-2.4 recipe-item br">
-                <div class="card recipe-card shadow-sm" data-bs-toggle="modal" data-bs-target="#m2">
-                    <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400" class="card-img-top">
-                    <div class="card-body p-3">
-                        <span class="carbon-badge">⏱️8m</span>
-                        <h6 class="fw-bold mt-2">酪梨全麥吐司</h6>
-                    </div>
+            
+            </div>
+    </div>
+
+    <div class="modal fade" id="m1" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">🥣 隔夜燕麥粥製作步驟</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <h6>所需食材：</h6>
+                    <ul>
+                        <li>大燕麥片 1/2 杯</li>
+                        <li>植物奶（豆漿或燕麥奶） 1/2 杯</li>
+                        <li>奇亞籽 1 匙、新鮮水果少量</li>
+                    </ul>
+                    <hr>
+                    <h6>製作步驟：</h6>
+                    <ol>
+                        <li>將燕麥、植物奶、奇亞籽放入玻璃罐中攪拌。</li>
+                        <li>蓋緊蓋子，放入冰箱冷藏至少 6 小時。</li>
+                        <li>隔天取出，放上水果即可食用。</li>
+                    </ol>
                 </div>
             </div>
-            <div class="col-6 col-md-4 col-lg-2.4 recipe-item br">
-                <div class="card recipe-card shadow-sm" data-bs-toggle="modal" data-bs-target="#m3">
-                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400" class="card-img-top">
-                    <div class="card-body p-3">
-                        <span class="carbon-badge">⏱️3m</span>
-                        <h6 class="fw-bold mt-2">香蕉植物奶飲</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2.4 recipe-item br">
-                <div class="card recipe-card shadow-sm" data-bs-toggle="modal" data-bs-target="#m4">
-                    <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400" class="card-img-top">
-                    <div class="card-body p-3">
-                        <span class="carbon-badge">⏱️5m</span>
-                        <h6 class="fw-bold mt-2">堅果豆乳優格</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2.4 recipe-item br">
-                <div class="card recipe-card shadow-sm" data-bs-toggle="modal" data-bs-target="#m5">
-                    <img src="
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 修正後的篩選功能
+        function filterMenu(cat, btn) {
+            // 切換按鈕顏色
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // 執行篩選
+            const items = document.querySelectorAll('.recipe-item');
+            items.forEach(item => {
+                if (cat === 'all' || item.classList.contains(cat)) {
+                    item.style.display = 'block';
