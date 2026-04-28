@@ -31,14 +31,14 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold" href="#">🌿 Eco-Eat</a>
-            <div class="ms-auto text-white d-none d-md-block">SDG 13 氣候行動：低碳飲食方案</div>
+            <div class="ms-auto text-white d-none d-md-block">SDG 13 氣候行動：低碳飲食方案 [cite: 6]</div>
         </div>
     </nav>
 
     <section class="hero-section text-center">
         <div class="container">
             <h1 class="fw-bold text-success mb-3">學生蔬食，15 分鐘守護地球</h1>
-            <p class="text-muted mb-4">點擊下方卡片查看詳細教學。畜牧業排放占全球溫室氣體近 14.5%，讓我們一起行動！</p>
+            <p class="text-muted mb-4">點擊下方卡片查看詳細教學。畜牧業排放占全球溫室氣體近 14.5% [cite: 8]，讓我們一起行動！</p>
             
             <div class="mb-2">
                 <button class="btn btn-outline-success filter-btn active mx-1" onclick="filterMenu('all', this)">全部食譜</button>
@@ -56,21 +56,87 @@
                 // 根據您上傳的圖片檔名與食譜內容進行對應
                 const recipes = [
                     // 早餐 (br)
-                    { id: '1', cat: 'br', title: '隔燕麥粥', time: '5m', img: 'oats.jpg', ingredients: '燕麥、豆漿、水果、奇亞籽', steps: '1.燕麥豆漿1:1混合。2.冷藏6小時。3.放水果即食。' },
+                    { id: '1', cat: 'br', title: '隔燕麥粥', time: '5m', img: 'oats.jpg', ingredients: '燕麥、豆漿、水果、奇亞籽 [cite: 14, 15]', steps: '1.燕麥豆漿1:1混合。2.冷藏6小時。3.放水果即食。' },
                     { id: '2', cat: 'br', title: '酪梨全麥吐司', time: '8m', img: 'avocado.jpg', ingredients: '全麥吐司、酪梨、黑胡椒', steps: '1.吐司烤香。2.酪梨壓碎鋪平。3.灑鹽與黑胡椒。' },
                     { id: '3', cat: 'br', title: '香蕉豆奶飲', time: '3m', img: 'smoothie.jpg', ingredients: '香蕉1根、豆漿300ml', steps: '1.香蕉切塊放進果汁機。2.倒入豆漿。3.打勻即可。' },
                     { id: '4', cat: 'br', title: '堅果豆乳優格', time: '5m', img: 'yogurt.jpg', ingredients: '植物優格、綜合堅果、蜂蜜', steps: '1.優格倒入碗中。2.灑上堅果。3.淋上少量蜂蜜。' },
                     { id: '5', cat: 'br', title: '藍莓果醬貝果', time: '5m', img: 'bagel.jpg', ingredients: '貝果、藍莓果醬', steps: '1.貝果對切烤熱。2.塗上厚厚果醬即可。' },
                     
                     // 午餐 (lu)
-                    { id: '6', cat: 'lu', title: '番茄涼拌嫩豆腐', time: '10m', img: 'tofu.jpg', ingredients: '嫩豆腐、番茄丁、和風醬', steps: '1.豆腐瀝乾。2.鋪上番茄。3.淋醬油與灑蔥花。' },
+                    { id: '6', cat: 'lu', title: '番茄涼拌嫩豆腐', time: '10m', img: 'tofu.jpg', ingredients: '嫩豆腐、番茄丁、和風醬 [cite: 17]', steps: '1.豆腐瀝乾。2.鋪上番茄。3.淋醬油與灑蔥花。' },
                     { id: '7', cat: 'lu', title: '胡麻全麥冷麵', time: '12m', img: 'soba.jpg', ingredients: '全麥麵、小黃瓜、胡麻醬', steps: '1.煮熟麵條沖冷水。2.放上黃瓜絲。3.淋上胡麻醬。' },
                     { id: '8', cat: 'lu', title: '鷹嘴豆輕食捲', time: '10m', img: 'wrap.jpg', ingredients: '墨西哥餅皮、鷹嘴豆泥、生菜', steps: '1.餅皮稍微烘熱。2.塗抹豆泥放生菜。3.捲起對切。' },
                     { id: '9', cat: 'lu', title: '微波豆腐味噌湯', time: '15m', img: 'miso.jpg', ingredients: '味噌、豆腐、海帶芽', steps: '1.熱水加入海帶與豆腐。2.關火拌入味噌。3.灑蔥花即可。' },
                     { id: '10', cat: 'lu', title: '黑胡椒毛豆餐', time: '5m', img: 'edamame.jpg', ingredients: '冷凍毛豆、黑胡椒、鹽', steps: '1.毛豆解凍。2.加入鹽與黑胡椒拌勻。3.直接食用。' },
 
                     // 晚餐 (di)
-                    { id: '11', cat: 'di', title: '10分鐘溫沙拉', time: '10m', img: 'salad.jpg', ingredients: '花椰菜、玉米筍、橄欖油', steps: '1.蔬菜洗淨切塊。2.橄欖油熱鍋拌炒。3.加入少許水悶熟。' },
+                    { id: '11', cat: 'di', title: '10分鐘溫沙拉', time: '10m', img: 'salad.jpg', ingredients: '花椰菜、玉米筍、橄欖油 [cite: 19]', steps: '1.蔬菜洗淨切塊。2.橄欖油熱鍋拌炒。3.加入少許水悶熟。' },
                     { id: '12', cat: 'di', title: '南瓜椰奶燉菜', time: '15m', img: 'pumpkin.jpg', ingredients: '南瓜塊、椰奶、咖哩粉', steps: '1.南瓜煮軟。2.倒入椰奶與咖哩粉煮滾。3.小火收汁。' },
                     { id: '13', cat: 'di', title: '蒜香野菇麵', time: '15m', img: 'pasta.jpg', ingredients: '義大利麵、鮮香菇、蒜末', steps: '1.煮麵。2.蒜末爆香炒香菇。3.麵條放入鍋中拌勻。' },
-                    { id: '14', cat: 'di', title: '彩椒炒豆乾', time: '12m', img: 'tofu2.jpg', ingredients: '彩椒、豆乾條、素蠔油', steps: '1.豆乾煎黃。2.放入彩椒快炒。3
+                    { id: '14', cat: 'di', title: '彩椒炒豆乾', time: '12m', img: 'tofu2.jpg', ingredients: '彩椒、豆乾條、素蠔油', steps: '1.豆乾煎黃。2.放入彩椒快炒。3.淋上素蠔油調味。' },
+                    { id: '15', cat: 'di', title: '韓式辣拌時蔬豆腐', time: '10m', img: 'korean.jpg', ingredients: '板豆腐、韓式辣醬、豆芽', steps: '1.豆腐切塊煮熟。2.與辣醬、豆芽拌勻。3.灑白芝麻。' }
+                ];
+
+                // 動態渲染 HTML 卡片與 Modal [cite: 24, 26]
+                recipes.forEach(r => {
+                    document.write(`
+                        <div class="col-6 col-md-4 col-lg-3 recipe-item ${r.cat}">
+                            <div class="card recipe-card shadow-sm" data-bs-toggle="modal" data-bs-target="#m${r.id}">
+                                <img src="./images/${r.img}" class="card-img-top" alt="${r.title}">
+                                <div class="card-body p-3 text-center">
+                                    <span class="carbon-badge">⏱️${r.time}</span>
+                                    <h6 class="fw-bold mt-2 mb-0">${r.title}</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="m${r.id}" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content border-0">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title fw-bold">🍳 ${r.title} 製作教學</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body p-4">
+                                        <h6>🥗 所需食材：</h6><p>${r.ingredients}</p>
+                                        <hr>
+                                        <h6>🔥 製作步驟：</h6><p>${r.steps}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+            </script>
+
+        </div>
+    </div>
+
+    <footer class="py-5 bg-dark text-white text-center">
+        <div class="container">
+            <h5 class="mb-3">About Eco-Eat & SDG 13</h5>
+            <p class="small text-muted mb-4 px-3">本平台致力於推廣永續飲食，藉由減少肉類攝取降低環境足跡。</p>
+            <p class="mb-0">© 2026 Eco-Eat Project | 113403504 李盈萱</p>
+            <small class="text-muted">Deployed on GitHub Pages</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 篩選功能邏輯
+        function filterMenu(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const items = document.querySelectorAll('.recipe-item');
+            items.forEach(item => {
+                if (cat === 'all' || item.classList.contains(cat)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
