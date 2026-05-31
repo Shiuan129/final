@@ -1,29 +1,45 @@
 <!DOCTYPE html>
+<!--
+  Eco-Eat 學生低碳食譜網站
+  ─────────────────────────
+  專案說明：以單頁式網站（Single Page）展示 15 道 15 分鐘內可完成的蔬食食譜，
+           呼應 SDG 13 氣候行動，推廣低碳飲食。
+  技術架構：HTML + CSS + 原生 JavaScript（Vanilla JS）
+           Bootstrap 5 僅用於 RWD 格線排版（container / row / col）
+  作者：113403504 李盈萱
+-->
 <html lang="zh-Hant">
 <head>
+    <!-- 基本 meta：編碼、RWD 視窗設定、頁面標題 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eco-Eat | 15道學生低碳食譜</title>
 
+    <!-- Bootstrap CSS：提供響應式 12 欄格線系統，卡片區塊會用到 col-* 類別 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        /* ── 全站色彩變數 ──
+           集中管理主色，之後若要換色系只需改 :root 即可 */
         :root {
-            --green: #3d7a35;
-            --green-dark: #2d5a27;
-            --cream: #faf6eb;
-            --warm: #fff8e7;
+            --green: #3d7a35;       /* 輔助綠色 */
+            --green-dark: #2d5a27;  /* 主色：深森林綠 */
+            --cream: #faf6eb;       /* 背景米白 */
+            --warm: #fff8e7;        /* 暖色點綴（保留供延伸使用） */
         }
 
+        /* 統一 box-sizing，避免 padding 撐破寬度 */
         * { box-sizing: border-box; }
 
         body {
             margin: 0;
+            /* 淡綠漸層背景，營造自然、輕鬆的視覺氛圍 */
             background: linear-gradient(160deg, #faf6eb 0%, #e8f4e5 45%, #faf6eb 100%);
             font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
             color: #333;
         }
 
+        /* ── 頂部導覽列 ── */
         .navbar {
             background: linear-gradient(90deg, #2d5a27, #4a8f3f) !important;
             padding: 0.9rem 0;
@@ -31,6 +47,7 @@
 
         .navbar-brand { font-size: 1.35rem; letter-spacing: 0.5px; }
 
+        /* ── Hero 主視覺區 ── */
         .hero-section {
             padding: 3.5rem 1rem 2.5rem;
             text-align: center;
@@ -38,6 +55,7 @@
             overflow: hidden;
         }
 
+        /* 用偽元素放大型 emoji 當背景裝飾，opacity 很低不搶視覺焦點 */
         .hero-section::before {
             content: "🌱";
             position: absolute;
@@ -58,6 +76,7 @@
             transform: rotate(12deg);
         }
 
+        /* clamp() 讓標題在不同螢幕寬度自動縮放 */
         .hero-title {
             font-size: clamp(1.6rem, 4vw, 2.4rem);
             font-weight: 800;
@@ -72,9 +91,10 @@
             line-height: 1.7;
         }
 
+        /* ── 分類篩選按鈕 ── */
         .filter-wrap {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: wrap;          /* 手機版按鈕過多時自動換行 */
             justify-content: center;
             gap: 0.6rem;
         }
@@ -84,7 +104,7 @@
             background: white;
             color: var(--green-dark);
             padding: 0.55rem 1.1rem;
-            border-radius: 999px;
+            border-radius: 999px;     /* 圓 pill 造型 */
             font-weight: 600;
             box-shadow: 0 3px 10px rgba(45, 90, 39, 0.1);
             transition: transform 0.2s, background 0.2s, color 0.2s;
@@ -92,35 +112,40 @@
         }
 
         .filter-btn:hover { transform: translateY(-2px) scale(1.03); }
+
+        /* .active 由 JavaScript 切換，代表目前選中的分類 */
         .filter-btn.active {
             background: var(--green-dark);
             color: white;
             transform: translateY(-1px);
         }
 
+        /* ── 食譜卡片 ── */
         .recipe-card {
             border: none;
             border-radius: 18px;
             overflow: hidden;
             cursor: pointer;
-            height: 100%;
+            height: 100%;             /* 同一列卡片等高 */
             background: white;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
+        /* hover 微上浮 + 輕微旋轉，增加互動感 */
         .recipe-card:hover {
             transform: translateY(-6px) rotate(-0.5deg);
             box-shadow: 0 14px 28px rgba(45, 90, 39, 0.15);
         }
 
+        /* 早/午/晚餐以頂部色條區分：br=早餐、lu=午餐、di=晚餐 */
         .recipe-card.br { border-top: 4px solid #f4b942; }
         .recipe-card.lu { border-top: 4px solid #5cb85c; }
         .recipe-card.di { border-top: 4px solid #7b6ba8; }
 
         .card-img-top {
             height: 170px;
-            object-fit: cover;
+            object-fit: cover;        /* 裁切填滿，維持卡片整齊 */
             background: linear-gradient(135deg, #eee, #f5f5f5);
         }
 
@@ -143,19 +168,20 @@
             color: #2a2a2a;
         }
 
+        /* 篩選時隱藏不符合分類的卡片（由 JS 加上 .is-hidden） */
         .recipe-item { transition: opacity 0.25s, transform 0.25s; }
-        .recipe-item.is-hidden {
-            display: none;
-        }
+        .recipe-item.is-hidden { display: none; }
 
-        /* 自訂彈窗 — 不依賴 Bootstrap Modal，關閉一定有效 */
+        /* ── 自訂食譜彈窗（Overlay Modal）──
+           不使用 Bootstrap Modal，避免動態產生 15 個彈窗時關閉失效。
+           改為「單一彈窗 + JS 動態換內容」的作法。 */
         .recipe-overlay {
-            position: fixed;
-            inset: 0;
+            position: fixed;          /* 固定於視窗，蓋住整個畫面 */
+            inset: 0;                 /* top/right/bottom/left 全為 0 */
             background: rgba(20, 40, 18, 0.45);
             backdrop-filter: blur(4px);
             z-index: 1050;
-            display: none;
+            display: none;            /* 預設隱藏，.open 時改 flex 置中 */
             align-items: center;
             justify-content: center;
             padding: 1rem;
@@ -179,7 +205,7 @@
             border-radius: 22px;
             width: 100%;
             max-width: 440px;
-            max-height: 85vh;
+            max-height: 85vh;         /* 不超過視窗高度 85%，避免小螢幕溢出 */
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
             animation: slideUp 0.25s ease;
@@ -223,7 +249,7 @@
 
         .panel-body {
             padding: 1.25rem 1.4rem 1.5rem;
-            overflow-y: auto;
+            overflow-y: auto;         /* 步驟太長時可捲動 */
             max-height: calc(85vh - 64px);
         }
 
@@ -237,7 +263,7 @@
             margin-bottom: 1rem;
             line-height: 1.75;
             color: #444;
-            white-space: pre-line;
+            white-space: pre-line;    /* 保留 steps 字串中的 \n 換行 */
         }
 
         .panel-back {
@@ -267,6 +293,10 @@
 </head>
 <body>
 
+    <!-- ══════════════════════════════════════
+         區塊 1：頂部導覽列（Navbar）
+         sticky-top 讓使用者捲動時仍看得到品牌名稱
+         ══════════════════════════════════════ -->
     <nav class="navbar navbar-dark sticky-top shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold" href="#">🌿 Eco-Eat</a>
@@ -274,11 +304,15 @@
         </div>
     </nav>
 
+    <!-- ══════════════════════════════════════
+         區塊 2：Hero 主視覺 + 分類篩選
+         ══════════════════════════════════════ -->
     <section class="hero-section">
         <div class="container">
             <h1 class="hero-title">學生蔬食，15 分鐘守護地球 🌍</h1>
             <p class="hero-sub">點卡片看做法，做完記得按 ✕ 或「回到食譜列表」回主畫面。畜牧業排放占全球溫室氣體近 14.5%，一起試試看！</p>
 
+            <!-- 篩選按鈕：onclick 呼叫 filterMenu(分類代碼, 被點擊的按鈕元素) -->
             <div class="filter-wrap">
                 <button class="filter-btn active" onclick="filterMenu('all', this)">🍽️ 全部</button>
                 <button class="filter-btn" onclick="filterMenu('br', this)">🌅 早餐</button>
@@ -288,11 +322,20 @@
         </div>
     </section>
 
+    <!-- ══════════════════════════════════════
+         區塊 3：食譜卡片列表（由 JavaScript 動態插入）
+         #recipe-container 初始為空，頁面載入後由 renderRecipes() 填入
+         ══════════════════════════════════════ -->
     <div class="container py-4 pb-5">
         <div class="row g-4" id="recipe-container"></div>
     </div>
 
-    <!-- 單一彈窗，內容動態填入 -->
+    <!-- ══════════════════════════════════════
+         區塊 4：食譜詳情彈窗（全站共用一個）
+         - 點卡片 → openRecipe() 填入標題、食材、步驟
+         - 關閉方式：✕ 按鈕 / 回到列表 / 點背景 / 按 Esc
+         - recipe-panel 上的 stopPropagation 防止點面板內部時誤關閉
+         ══════════════════════════════════════ -->
     <div class="recipe-overlay" id="recipe-overlay" onclick="onOverlayClick(event)">
         <div class="recipe-panel" onclick="event.stopPropagation()">
             <div class="panel-header">
@@ -309,6 +352,9 @@
         </div>
     </div>
 
+    <!-- ══════════════════════════════════════
+         區塊 5：頁尾 Footer
+         ══════════════════════════════════════ -->
     <footer>
         <h5 class="mb-2">About Eco-Eat & SDG 13</h5>
         <p class="small text-white-50 mb-3 px-3">推廣永續飲食，減少肉類攝取、降低環境足跡。</p>
@@ -316,7 +362,19 @@
     </footer>
 
     <script>
+        /*
+         * ── 食譜資料陣列 ──
+         * 每筆物件欄位說明：
+         *   id          : 唯一識別碼（字串），供 openRecipe() 查找
+         *   cat         : 分類代碼 → br=早餐 / lu=午餐 / di=晚餐
+         *   title       : 食譜名稱（顯示於卡片與彈窗標題）
+         *   time        : 預估料理時間（顯示於卡片徽章）
+         *   img         : 圖片檔名，路徑為 ./images/{img}
+         *   ingredients : 食材列表（純文字）
+         *   steps       : 製作步驟，以 \n 分隔每一個步驟
+         */
         const recipes = [
+            // ── 早餐 br（5 道）──
             {
                 id: '1', cat: 'br', title: '隔燕麥粥', time: '5m', img: 'oats.jpg',
                 ingredients: '燕麥片 ½ 杯、無糖豆漿 ½ 杯、奇亞籽 1 小匙、香蕉或藍莓適量',
@@ -342,6 +400,8 @@
                 ingredients: '全麥或原味貝果 1 個、藍莓果醬 2～3 大匙',
                 steps: '1. 貝果橫切成上下兩片，若偏硬可先以烤吐司機或烤箱 180°C 烤 3 分鐘。\n2. 烤至外層微脆、內裡仍柔軟即可取出，避免烤過頭。\n3. 在切面朝上均勻塗抹藍莓果醬，厚度可依個人喜好調整。\n4. 合起或直接分開食用皆可，建議現做現吃以保持酥脆口感。'
             },
+
+            // ── 午餐 lu（5 道）──
             {
                 id: '6', cat: 'lu', title: '番茄涼拌嫩豆腐', time: '10m', img: 'tofu.jpg',
                 ingredients: '嫩豆腐 1 盒（300g）、牛番茄 1 顆、和風醬或薄鹽醬油 1.5 大匙、蔥花少許',
@@ -367,6 +427,8 @@
                 ingredients: '冷凍毛豆 200g、粗海鹽 ½ 小匙、現磨黑胡椒 ¼ 小匙',
                 steps: '1. 冷凍毛豆不必完全解凍，直接放入滾水中煮 3～4 分鐘至熟透。\n2. 撈起瀝乾水分，可再用廚房紙巾吸去表面水氣。\n3. 趁熱加入粗海鹽與現磨黑胡椒，在碗中上下拋拌 30 秒讓調味均勻附著。\n4. 放涼 1 分鐘後即可當輕食或配菜，剩餘可冷藏當隔日點心。'
             },
+
+            // ── 晚餐 di（5 道）──
             {
                 id: '11', cat: 'di', title: '10分鐘溫沙拉', time: '10m', img: 'salad.jpg',
                 ingredients: '花椰菜 ½ 顆、玉米筍 5 根、橄欖油 1 大匙、鹽與黑胡椒各少許',
@@ -394,8 +456,19 @@
             }
         ];
 
+        /* 快取彈窗 DOM 節點，避免每次開關都重複 querySelector */
         const overlay = document.getElementById('recipe-overlay');
 
+        /**
+         * renderRecipes — 動態產生食譜卡片 HTML
+         * 使用 Array.map() 將 recipes 陣列轉成 HTML 字串，
+         * 再一次性寫入 #recipe-container（比 document.write 更現代、不阻塞解析）。
+         *
+         * 響應式欄位：
+         *   col-6      → 手機每列 2 張
+         *   col-md-4   → 平板每列 3 張
+         *   col-lg-3   → 桌面每列 4 張
+         */
         function renderRecipes() {
             document.getElementById('recipe-container').innerHTML = recipes.map(r => `
                 <div class="col-6 col-md-4 col-lg-3 recipe-item ${r.cat}" data-cat="${r.cat}">
@@ -411,37 +484,65 @@
             `).join('');
         }
 
+        /**
+         * openRecipe — 開啟食譜詳情彈窗
+         * @param {string} id - 食譜 id（如 '1'、'15'）
+         *
+         * 流程：依 id 查找資料 → 填入彈窗各欄位 → 顯示 overlay → 鎖住背景捲動
+         */
         function openRecipe(id) {
             const r = recipes.find(x => x.id === id);
-            if (!r) return;
+            if (!r) return;  // 找不到資料時安全退出，避免報錯
+
             document.getElementById('panel-title').textContent = '🍳 ' + r.title;
             document.getElementById('panel-ingredients').textContent = r.ingredients;
             document.getElementById('panel-steps').textContent = r.steps;
+
             overlay.classList.add('show');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';  // 防止彈窗開啟時背景仍可捲動
         }
 
+        /**
+         * closeRecipe — 關閉食譜彈窗，回到主畫面
+         * 移除 .show 類別隱藏 overlay，並恢復 body 捲動
+         */
         function closeRecipe() {
             overlay.classList.remove('show');
             document.body.style.overflow = '';
         }
 
+        /**
+         * onOverlayClick — 點擊彈窗「背景遮罩」時關閉
+         * 只有 e.target 恰好是 overlay 本身才關閉（點面板內部不觸發）
+         * @param {MouseEvent} e
+         */
         function onOverlayClick(e) {
             if (e.target === overlay) closeRecipe();
         }
 
+        /**
+         * filterMenu — 依分類篩選食譜卡片
+         * @param {string} cat  - 分類代碼：'all' | 'br' | 'lu' | 'di'
+         * @param {HTMLElement} btn - 被點擊的篩選按鈕，用來切換 .active 樣式
+         *
+         * 邏輯：非 'all' 時，不符合 cat 的 .recipe-item 加上 .is-hidden 隱藏
+         */
         function filterMenu(cat, btn) {
+            // 清除所有按鈕的 active，再標記目前選中的
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+
             document.querySelectorAll('.recipe-item').forEach(item => {
                 item.classList.toggle('is-hidden', cat !== 'all' && !item.classList.contains(cat));
             });
         }
 
+        /* 鍵盤快捷：彈窗開啟時按 Esc 也可關閉 */
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && overlay.classList.contains('show')) closeRecipe();
         });
 
+        /* 頁面載入完成後立即渲染所有食譜卡片 */
         renderRecipes();
     </script>
 </body>
